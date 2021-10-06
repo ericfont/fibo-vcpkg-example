@@ -14,3 +14,10 @@ target_link_libraries(fibo
     fmt::fmt
     range-v3::range-v3
     cxxopts::cxxopts)
+
+set_target_properties( fibo
+    PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/runtime/lib"
+    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/runtime/lib"
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/runtime"
+)

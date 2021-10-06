@@ -95,7 +95,7 @@ jobs:
       - name: Pack zip
         uses: papeloto/action-zip@v1
         with:
-          files: ${{ env.CMAKE_BUILD_DIR }}runtime/
+          files: ${{ env.CMAKE_BUILD_DIR }}runtime
           dest: ${{ github.event.repository.name }}-${{ matrix.triplet }}-${{ steps.tag.outputs.tag }}.zip
 
       - name: Release if tagged

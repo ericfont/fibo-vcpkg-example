@@ -78,5 +78,5 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: ${{ matrix.triplet }}-buildartifact
-          path: ${{ env.CMAKE_BUILD_DIR }} 
+          name: ${{ github.event.repository.name }}-${{ matrix.triplet }}-${{ env.GITHUB_SHA }}-run${{ env.GITHUB_RUN_ID }}-buildartifact
+          path: ${{ env.CMAKE_BUILD_DIR }}/

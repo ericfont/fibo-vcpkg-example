@@ -29,15 +29,17 @@ jobs:
       VCPKG_ROOT: ${{ github.workspace }}/vcpkg
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout git repo, including vcpkg submodule
+        uses: actions/checkout@v2
         with:
           submodules: true
 
       # Setup the build machine with the most recent versions of CMake and Ninja. Both are cached if not already: on subsequent runs both will be quickly restored from GitHub cache service.
-      - uses: lukka/get-cmake@latest
+      - name: Setup build machine with latest CMake & Ninja
+        uses: lukka/get-cmake@latest
 
       # Restore both vcpkg and its artifacts from the GitHub cache service.
-      - name: Restore vcpkg and its artifacts.
+      - name: Restore vcpkg and its artifacts
         uses: actions/cache@v2
         with:
           # The first path is where vcpkg generates artifacts while consuming the vcpkg.json manifest file.
@@ -55,12 +57,14 @@ jobs:
           key: |
             ${{ hashFiles( 'vcpkg.json' ) }}-${{ hashFiles( '.git/modules/vcpkg/HEAD' )}}-${{ matrix.triplet }}-invalidate
 
-      - name: Show content of workspace after cache has been restored
-        run: find $RUNNER_WORKSPACE
-        shell: bash
+# only usefulf or debugging:
+#      - name: Show content of workspace after cache has been restored
+#        run: find $RUNNER_WORKSPACE
+#        shell: bash
 
-      # On Windows runners, let's ensure to have the Developer Command Prompt environment setup correctly. As used here the Developer Command Prompt created is targeting x64 and using the default the Windows SDK.
-      - uses: ilammy/msvc-dev-cmd@v1
+      # ensure Windows Developer Command Prompt setup targeting x64 and using the default the Windows SDK.
+      - name: if Windows runner, ensure Developer Command Prompt setup correctly
+        uses: ilammy/msvc-dev-cmd@v1
 
       # Run CMake to generate Ninja project files, using the vcpkg's toolchain file to resolve and install the dependencies as specified in vcpkg.json.
       - name: Install dependencies and generate project files
@@ -72,11 +76,13 @@ jobs:
         run: |
           cmake --build "${{ env.CMAKE_BUILD_DIR }}"
 
-      - name: Show content of workspace at its completion
-        run: find $RUNNER_WORKSPACE
-        shell: bash
+# only useful for debugging:
+#      - name: Show content of workspace at its completion
+#        run: find $RUNNER_WORKSPACE
+#        shell: bash
 
-      - uses: actions/upload-artifact@v2
+      - name: Upload Build Runtime Artifacts
+        uses: actions/upload-artifact@v2
         with:
           name: ${{ github.event.repository.name }}-${{ matrix.triplet }}-run${{ github.run_number }}
           path: ${{ env.CMAKE_BUILD_DIR }}runtime/

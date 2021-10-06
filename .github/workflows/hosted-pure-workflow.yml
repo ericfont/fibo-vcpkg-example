@@ -89,9 +89,11 @@ jobs:
 
       - name: Get tag
         id: tag
+        if: startsWith(github.ref, 'refs/tags/')
         uses: dawidd6/action-get-tag@v1
 
       - name: Pack zip if tagged
+        if: startsWith(github.ref, 'refs/tags/')
         run: |
           mv README.md ${{ env.CMAKE_BUILD_DIR }}runtime/
           mv LICENSE ${{ env.CMAKE_BUILD_DIR }}runtime/

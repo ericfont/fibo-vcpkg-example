@@ -93,6 +93,7 @@ jobs:
         uses: dawidd6/action-get-tag@v1
 
       - name: Pack zip
+        if: startsWith(github.ref, 'refs/tags/')
         uses: papeloto/action-zip@v1
         with:
           files: ${{ env.CMAKE_BUILD_DIR }}runtime

@@ -86,3 +86,12 @@ jobs:
         with:
           name: ${{ github.event.repository.name }}-${{ matrix.triplet }}-run${{ github.run_number }}
           path: ${{ env.CMAKE_BUILD_DIR }}runtime/
+
+      - name: Release if tagged
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            README.md
+            LICENSE
+            ${{ env.CMAKE_BUILD_DIR }}runtime/

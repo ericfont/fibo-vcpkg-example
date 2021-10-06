@@ -13,4 +13,4 @@ cmake --build build
 The executable along with any necessary shared runtime libraries the build generated (such as fmt.dll on windows) will be put in `build/runtime/`.
 
 # Online Build
-Fork & make a commit to your github, then look in your repo's action folder, and when the run completes it turn from orange to green, then click on its summary and you should see downloadable zips of the builds for each OS at the bottom.
+Fork & make a commit to your github, then look in your repo's action folder, and when the run completes it turn from orange to green, then click on its summary and authorized repo users should see (non-publibly)-downloadable zips of the builds for each OS at the bottom. Tagged pushes will also generate a Release which is publicly-downloadable.

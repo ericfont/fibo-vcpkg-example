@@ -17,7 +17,7 @@ target_link_libraries(fibo
 
 set_target_properties( fibo
     PROPERTIES
-    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/runtime/lib"
-    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/runtime/lib"
+    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/archive"
+    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/library"
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/runtime"
 )

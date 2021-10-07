@@ -33,7 +33,7 @@ jobs:
     env:
       VCPKG_ROOT: ${{ github.workspace }}/vcpkg
       CMAKE_BUILD_DIR: ${{ github.workspace }}/build
-      CMAKE_BUILD_ZIP_FILE: ${{ CMAKE_BUILD_DIR }}/${{ github.event.repository.name }}-${{ matrix.cmake-system }}.zip
+      CMAKE_BUILD_ZIP_FILE: ${{ env.CMAKE_BUILD_DIR }}/${{ github.event.repository.name }}-${{ matrix.cmake-system }}.zip
 
     steps:
       - name: Checkout git repo, including vcpkg submodule

@@ -9,19 +9,27 @@ on: [push]
 
 jobs:
   job:
-    name: ${{ matrix.os }}-hosted-pure
-    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.gh-environment }}-hosted-pure
+    runs-on: ${{ matrix.gh-environment }}
     strategy:
       fail-fast: false
+
       matrix:
-        os: [ubuntu-18.04, macOS-11, windows-2022]
+        gh-environment: [ubuntu-18.04, macOS-11, windows-2022]
         include:
-          - os: windows-2022
-            triplet: x64-windows
-          - os: ubuntu-18.04
-            triplet: x64-linux
-          - os: macOS-11
-            triplet: x64-osx
+
+          - gh-environment: windows-2022
+            vcpkg-triplet: x64-windows
+            cmake-system: Windows
+
+          - gh-environment: ubuntu-18.04
+            vcpkg-triplet: x64-linux
+            cmake-system: Linux
+
+          - gh-environment: macOS-11
+            vcpkg-triplet: x64-osx
+            cmake_system: Darwin
+
     env:
       # Indicates the CMake build directory where project files and binaries are being produced.
       CMAKE_BUILD_DIR: ${{ github.workspace }}/build/
@@ -55,7 +63,7 @@ jobs:
           # The key includes: hash of the vcpkg.json file, the hash of the vcpkg Git commit id, and the used vcpkg's triplet. The vcpkg's commit id would suffice, but computing an hash out it does not harm.
           # Note: given a key, the cache content is immutable. If a cache entry has been created improperly, in order the recreate the right content the key must be changed as well, and it must be brand new (i.e. not existing already).
           key: |
-            ${{ hashFiles( 'vcpkg.json' ) }}-${{ hashFiles( '.git/modules/vcpkg/HEAD' )}}-${{ matrix.triplet }}-invalidate
+            ${{ hashFiles( 'vcpkg.json' ) }}-${{ hashFiles( '.git/modules/vcpkg/HEAD' )}}-${{ matrix.vcpkg-triplet }}-invalidate
 
 # only usefulf or debugging:
 #      - name: Show content of workspace after cache has been restored
@@ -84,7 +92,7 @@ jobs:
       - name: Upload Build Runtime Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ github.event.repository.name }}-${{ matrix.triplet }}-run${{ github.run_number }}
+          name: ${{ github.event.repository.name }}-${{ matrix.vcpkg-triplet }}-run${{ github.run_number }}
           path: ${{ env.CMAKE_BUILD_DIR}}fibo.zip
 
       - name: Get tag
@@ -98,4 +106,4 @@ jobs:
         with:
           files: |
             ${{ env.CMAKE_BUILD_DIR}}fibo.zip
-            #            ${{ github.event.repository.name }}-${{ matrix.triplet }}-${{ steps.tag.outputs.tag }}.zip
+            #            ${{ github.event.repository.name }}-${{ matrix.vcpkg-triplet }}-${{ steps.tag.outputs.tag }}.zip

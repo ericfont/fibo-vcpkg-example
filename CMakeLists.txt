@@ -31,7 +31,8 @@ set_target_properties( fibo
         )
 
 add_custom_target(create_zip ALL
-   COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/README.md" "${CMAKE_BINARY_DIR}/runtime/"
-   COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/LICENSE"   "${CMAKE_BINARY_DIR}/runtime/"
-   COMMAND ${CMAKE_COMMAND} -E tar -cfv "${PROJECT_NAME}-${GIT_HASH}.zip" --format=zip "${CMAKE_BINARY_DIR}/runtime"
+   WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/runtime"
+   COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/README.md" .
+   COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/LICENSE" .
+   COMMAND ${CMAKE_COMMAND} -E tar -cfv "${CMAKE_BINARY_DIR}/${PROJECT_NAME}-${GIT_HASH}.zip" --format=zip .
 )

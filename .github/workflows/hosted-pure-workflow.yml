@@ -92,7 +92,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: ${{ github.event.repository.name }}-${{ matrix.vcpkg-triplet }}-run${{ github.run_number }}
-          path: ${{ CMAKE_BUILD_ZIP_FILE }}
+          path: ${{ env.CMAKE_BUILD_ZIP_FILE }}
 
       - name: Get tag
         id: tag
@@ -103,4 +103,4 @@ jobs:
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: ${{ CMAKE_BUILD_ZIP_FILE }}
+          files: ${{ env.CMAKE_BUILD_ZIP_FILE }}

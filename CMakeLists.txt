@@ -22,19 +22,17 @@ set_target_properties( fibo
   RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/runtime"
 )
 
-# Get the latest abbreviated commit hash of the working branch
+# store git log info
 execute_process(
-  COMMAND git log -1 --format=%H
+  COMMAND git log -1 --format=oneline
   WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
-  OUTPUT_VARIABLE GIT_HASH
-  OUTPUT_FILE "SHA40.txt"
-  OUTPUT_STRIP_TRAILING_WHITESPACE
+  OUTPUT_FILE "${CMAKE_BINARY_DIR}/runtime/VERSION"
 )
 
 add_custom_command(TARGET fibo
-	POST_BUILD
-	WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/runtime
-	COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/README.md" .
-	COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/LICENSE" .
-	COMMAND ${CMAKE_COMMAND} -E tar -cfv "${CMAKE_BINARY_DIR}/fibo.zip" --format=zip .
+  POST_BUILD
+  WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/runtime
+  COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/README.md" .
+  COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/LICENSE" .
+  COMMAND ${CMAKE_COMMAND} -E tar -cfv "${CMAKE_BINARY_DIR}/fibo.zip" --format=zip .
 )

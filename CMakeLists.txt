@@ -26,7 +26,7 @@ set_target_properties( fibo
 add_custom_command(TARGET fibo
   PRE_BUILD
   WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
-  COMMAND git log -1 --format=medium > VERSION
+  COMMAND git log -1 --format=medium --decorate=short > VERSION
 )
 
 add_custom_command(TARGET fibo

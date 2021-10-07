@@ -26,7 +26,7 @@ set_target_properties( fibo
 execute_process(
   COMMAND git log -1 --format=medium
   WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
-  OUTPUT_FILE "${CMAKE_BINARY_DIR}/runtime/VERSION"
+  OUTPUT_FILE "VERSION"
 )
 
 add_custom_command(TARGET fibo
@@ -34,5 +34,6 @@ add_custom_command(TARGET fibo
   WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/runtime
   COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/README.md" .
   COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/LICENSE" .
+  COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/VERSION" .
   COMMAND ${CMAKE_COMMAND} -E tar -cfv "${CMAKE_BINARY_DIR}/fibo.zip" --format=zip .
 )

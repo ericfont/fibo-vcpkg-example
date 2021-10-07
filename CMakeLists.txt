@@ -35,5 +35,5 @@ add_custom_command(TARGET fibo
   COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/README.md" .
   COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/LICENSE" .
   COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/VERSION" .
-  COMMAND ${CMAKE_COMMAND} -E tar -cfv "${CMAKE_BINARY_DIR}/fibo.zip" --format=zip .
+  COMMAND ${CMAKE_COMMAND} -E tar -cfv "${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}-${CMAKE_SYSTEM_NAME}.zip" --format=zip .
 )

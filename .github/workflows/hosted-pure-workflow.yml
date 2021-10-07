@@ -31,10 +31,9 @@ jobs:
             cmake_system: Darwin
 
     env:
-      # Indicates the CMake build directory where project files and binaries are being produced.
-      CMAKE_BUILD_DIR: ${{ github.workspace }}/build/
-      # Indicates the location of the vcpkg as a Git submodule of the project repository.
       VCPKG_ROOT: ${{ github.workspace }}/vcpkg
+      CMAKE_BUILD_DIR: ${{ github.workspace }}/build
+      CMAKE_BUILD_ZIP_FILE: ${{ CMAKE_BUILD_DIR }}/${{ github.event.repository.name }}-${{ matrix.cmake-system }}.zip
 
     steps:
       - name: Checkout git repo, including vcpkg submodule
@@ -93,7 +92,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: ${{ github.event.repository.name }}-${{ matrix.vcpkg-triplet }}-run${{ github.run_number }}
-          path: ${{ env.CMAKE_BUILD_DIR}}fibo.zip
+          path: ${{ CMAKE_BUILD_ZIP_FILE }}
 
       - name: Get tag
         id: tag
@@ -104,6 +103,4 @@ jobs:
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: |
-            ${{ env.CMAKE_BUILD_DIR}}fibo.zip
-            #            ${{ github.event.repository.name }}-${{ matrix.vcpkg-triplet }}-${{ steps.tag.outputs.tag }}.zip
+          files: ${{ CMAKE_BUILD_ZIP_FILE }}

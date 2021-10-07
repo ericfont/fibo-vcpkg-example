@@ -22,6 +22,16 @@ set_target_properties( fibo
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/runtime"
 )
 
-add_custom_target(create_zip ALL COMMAND
-	${CMAKE_COMMAND} -E tar -cfv "${PROJECT_NAME}-runtime.zip" --format=zip
-      "${CMAKE_BINARY_DIR}/runtime")
+    # Get the latest abbreviated commit hash of the working branch
+    execute_process(
+        COMMAND git log -1 --format=%h
+        WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
+        OUTPUT_VARIABLE GIT_HASH
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        )
+
+add_custom_target(create_zip ALL
+   COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/README.md" "${CMAKE_BINARY_DIR}/runtime/"
+   COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/LICENSE"   "${CMAKE_BINARY_DIR}/runtime/"
+   COMMAND ${CMAKE_COMMAND} -E tar -cfv "${PROJECT_NAME}-${GIT_HASH}.zip" --format=zip "${CMAKE_BINARY_DIR}/runtime"
+)

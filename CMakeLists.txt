@@ -16,23 +16,24 @@ target_link_libraries(fibo
     cxxopts::cxxopts)
 
 set_target_properties( fibo
-    PROPERTIES
-    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/archive"
-    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/library"
-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/runtime"
+  PROPERTIES
+  ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/archive"
+  LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/library"
+  RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/runtime"
 )
 
-    # Get the latest abbreviated commit hash of the working branch
-    execute_process(
-        COMMAND git log -1 --format=%H
-        WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
-        OUTPUT_VARIABLE GIT_HASH
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-        )
+# Get the latest abbreviated commit hash of the working branch
+execute_process(
+  COMMAND git log -1 --format=%H
+  WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
+  OUTPUT_VARIABLE GIT_HASH
+  OUTPUT_STRIP_TRAILING_WHITESPACE
+)
 
-add_custom_target(create_zip ALL
-   WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/runtime"
-   COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/README.md" .
-   COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/LICENSE" .
-   COMMAND ${CMAKE_COMMAND} -E tar -cfv "${CMAKE_BINARY_DIR}/${PROJECT_NAME}-${GIT_HASH}.zip" --format=zip .
+add_custom_command(TARGET fibo
+	POST_BUILD
+	WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/runtime
+	COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/README.md" .
+	COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/LICENSE" .
+	COMMAND ${CMAKE_COMMAND} -E tar -cfv "${CMAKE_BINARY_DIR}/fibo.zip" --format=zip .
 )

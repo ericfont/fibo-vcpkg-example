@@ -28,7 +28,7 @@ jobs:
 
           - gh-environment: macOS-11
             vcpkg-triplet: x64-osx
-            cmake_system: Darwin
+            cmake-system: Darwin
 
     env:
       VCPKG_ROOT: ${{ github.workspace }}/vcpkg

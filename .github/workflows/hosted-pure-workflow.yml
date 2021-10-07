@@ -85,7 +85,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: ${{ github.event.repository.name }}-${{ matrix.triplet }}-run${{ github.run_number }}
-          path: ${{ env.CMAKE_BUILD_DIR}}fibo-runtime.zip
+          path: ${{ env.CMAKE_BUILD_DIR}}fibo-${{ github.sha }}.zip
 
       - name: Get tag
         id: tag
@@ -97,5 +97,5 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
-            ${{ env.CMAKE_BUILD_DIR}}fibo-runtime.zip
+            ${{ env.CMAKE_BUILD_DIR}}fibo-${{ github.sha }}.zip
             #            ${{ github.event.repository.name }}-${{ matrix.triplet }}-${{ steps.tag.outputs.tag }}.zip

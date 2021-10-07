@@ -21,3 +21,7 @@ set_target_properties( fibo
     LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/library"
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/runtime"
 )
+
+add_custom_target(create_zip ALL COMMAND
+	${CMAKE_COMMAND} -E tar -cfv "${PROJECT_NAME}-runtime.zip" --format=zip
+      "${CMAKE_BINARY_DIR}/runtime")

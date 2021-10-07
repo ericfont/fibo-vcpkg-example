@@ -23,10 +23,10 @@ set_target_properties( fibo
 )
 
 # store git log info
-execute_process(
-  COMMAND git log -1 --format=medium
-  WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
-  OUTPUT_FILE "VERSION"
+add_custom_command(TARGET fibo
+  PRE_BUILD
+  WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+  COMMAND git log -1 --format=medium > VERSION
 )
 
 add_custom_command(TARGET fibo

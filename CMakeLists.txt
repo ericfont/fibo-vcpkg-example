@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.15)
 
-project(fibo CXX)
+project(fibo-vcpkg-example CXX)
 
 find_package(fmt REQUIRED)
 find_package(range-v3 REQUIRED)

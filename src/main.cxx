@@ -20,7 +20,7 @@ int fib(int x) {
 int main(int argc, char** argv) {
   cxxopts::Options options("fibo", "Print the fibonacci sequence up to a value 'n'");
     options.add_options()
-      ("n,value", "The value to print to", cxxopts::value<int>()->default_value("10"));
+      ("n,value", "The value to print to", cxxopts::value<int>()->default_value("20"));
 
   auto result = options.parse(argc, argv);
   auto n = result["value"].as<int>();
